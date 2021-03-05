@@ -345,6 +345,7 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
+			System.out.println((char)(48 +2+1));
 		//make a new game
 		Game game = new Game();
 		

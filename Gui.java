@@ -131,8 +131,10 @@ public class Gui{
             				else if(supId != -1){
             					flag2 = false;
             					
-            					char[] arr2 = {'M',',','s',(char)(((int)('0'))+supId+1)};
-            					gr.drawChars(arr, 0, 4, 6+30*(i % n), 20+30*(n - 1 -(i / n)));
+            					char[] arr2 = {'M',',','s',(char)(48+supId+1)};
+            					gr.drawChars(arr2, 0, 4, 6+30*(i % n), 20+30*(n - 1 -(i / n)));
+								//Draw also Theseus
+            					gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
             				}
 
             				
