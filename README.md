@@ -1,5 +1,6 @@
 # Theseus-and-Minotaur
-Project in
-Data Structures 3rd Semester Winter 2020-2021
-Polytechnic School, Dpt. of Electrical and Computer Engineering
+A project initially developed for a course in
+Data Structures.\
+Winter 2020-2021 (3rd semester)\
+Dpt. of Electrical and Computer Engineering\
 Aristotle University of Thessaloniki
