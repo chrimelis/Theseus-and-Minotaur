@@ -1,7 +1,7 @@
 /* 
  * This file contains the main function.
  * To compile use:	> javac *.java
- * 					> java Game
+ * 			> java Game
 */
 
 public class Game {
