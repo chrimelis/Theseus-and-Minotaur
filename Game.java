@@ -1,7 +1,7 @@
 /* 
  * This file contains the main function.
  * To compile use:	> javac *.java
- * 			> java Game
+ * 					> java Game
 */
 
 public class Game {
@@ -52,45 +52,45 @@ public class Game {
 	public void credits(){
 			//This loop prints a series of messages
 			//and pauses for a small period of time according to the index i
-				for (int i = 0; i < 16; i++) {
-		      if(i == 0){
-		        System.out.println("A long time ago in a galaxy\n");
+		for (int i = 0; i < 16; i++) {
+		    if(i == 0){
+		    	System.out.println("Welcome to the event...");
 
-		      }
-		      else if(i == 1)
-		        System.out.println("far far away...\n");
-		      else if(i == 2){
-		          System.out.println("Team 100 welcomes you to...\n");
-		       }
-		      else if(i == 3){
-		         System.out.println("\"A night in the musuem\"\n");
-		      }
-		      else if(i == 5){
-		       System.out.println("The content creators:");
-		      }
-		      else if(i == 6){
+		    }
+		    else if(i == 1)
+		    	System.out.println("\"A night in the musuem\"\n");
+		    else if(i == 2){
+		        System.out.println("Enjoy the minigame...");
+		    }
+		    else if(i == 3){
+		        System.out.println("\"Theseus and the Minotaur\"\n");
+		    }
+		    else if(i == 5){
+		    	System.out.println("The content creators:");
+		    }
+		    else if(i == 6){
 		      System.out.println("Ioannis Kallimanis");
 		      System.out.println("Christos Melissaris");
-		      }
-		     try {
+		    }
+		    try {
 		        // thread to sleep for 1000 milliseconds
-		        if(i == 2 || i == 3)
-		          Thread.sleep(2000);
+		    	if(i == 2 || i == 3)
+		          Thread.sleep(1000);
 		        else if(i == 0 || i == 1)
 		          Thread.sleep(1000);
-		        else if(i == 4 || i == 5)
+		        else if(i == 4)
 		          Thread.sleep(1000);
 		        else{
 		          Thread.sleep(200);
 		          System.out.println();
 		        }
-		     }
-		     catch (Exception e) {
-		        System.out.println(e);
-		     }
 		    }
-		  }
-		/**
+		    catch (Exception e) {
+		        System.out.println(e);
+		    }
+		}
+	}
+	/**
 	 @return an integer in {0,1,2}
 	2 means Minotaurus won
 	1 means Theseus won
@@ -222,7 +222,7 @@ public class Game {
 			//print the final status who wins or draw
 			switch(winner) {
 				case 0:	//Draw
-					System.out.println("Nobody is the winner. Draw!!");
+					System.out.println("Draw!!");
 					break;
 				case 1: //Theseus wins
 					System.out.println("Theseus is the winner!!!");
@@ -334,7 +334,6 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-			System.out.println((char)(48 +2+1));
 		//make a new game
 		Game game = new Game();
 		

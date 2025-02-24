@@ -21,6 +21,7 @@ public class Gui{
     JLabel scoreT;
     JLabel scoreM;
     JLabel start;
+	JLabel gameOver;
     int tx,ty,mx,my;	//holds the coordinates of each player
     boolean flag;	//for technical reasons to know when to refresh the frame
     
@@ -37,7 +38,6 @@ public class Gui{
         panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics gr) {
-            	System.out.println(paintcode[1]+" "+paintcode[2]);
 	            super.paintComponent(gr);
 	            gr.drawRect(0, 80, 450, 450);
 	            gr.setColor(new Color(255,204,153));
@@ -60,7 +60,7 @@ public class Gui{
 	            int n = 15;
             	
 	            char[] arr = {'M','T','s','1','s','2','s','3','s','4'};
- 	        //   gr.drawChars(arr, 0, 1, 10, 20);
+ 	        	//   gr.drawChars(arr, 0, 1, 10, 20);
 	            
  	            if(paintcode[0] != 0) {
  	            	if(paintcode[0]==1) {	//when the game starts
@@ -114,7 +114,7 @@ public class Gui{
             				else if(supId == -1) {
             					mx = g.board.getN() - 1 - (minotaurTile/g.board.getN());
                 				my = minotaurTile % g.board.getN();
-            					System.out.println(paintcode[1]+" "+paintcode[2]);
+            					// System.out.println(paintcode[1]+" "+paintcode[2]);
             					gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);
             					//Draw also Theseus
             					gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
@@ -233,8 +233,13 @@ public class Gui{
         start.setBounds(250, 20,300,25);
         start.setForeground(Color.RED);
         start.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-        frame.add(start);
         
+		//JLabel with game over message
+		gameOver = new JLabel("");
+		gameOver.setBounds(430, 20,300,25);
+		gameOver.setForeground(Color.RED);
+		gameOver.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+
         //add all the labels that were created above to the panel
         frame.add(theseus);	
         frame.add(mino);
@@ -242,6 +247,8 @@ public class Gui{
         frame.add(moveM);
         frame.add(scoreT);
         frame.add(scoreM);
+        frame.add(start);
+		frame.add(gameOver);
         
         
         addPlayerType(1,g);	//add a comboBox for Theseus's Player Type
@@ -313,8 +320,9 @@ public class Gui{
 		    	flag = false;
 		    	int[] arr = g.setTurns(g);
 		    	if(arr[0] == -1) {	//has the game ended?
+		    		System.out.println("Game Over!");
 		    		//JLabel with game over message
-		    		System.out.println("Game Over");
+					gameOver.setText("Game Over!");
 		    	}
 		    	else if(g.getRound() != 0){
 		    		
@@ -339,7 +347,7 @@ public class Gui{
 		    		frame.add(panel);
 					panel.setSize(500,500);
 					
-					System.out.println(paintcode[1]+" "+paintcode[2]);
+					// System.out.println(paintcode[1]+" "+paintcode[2]);
 					
 		    		roundLabel.setText("Round: " + g.getRound());
 		    		if(g.playsFirst == 1) {	//if Theseus goes first

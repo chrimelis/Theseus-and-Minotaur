@@ -38,7 +38,7 @@ public class PlayerType implements ActionListener{
 				g.currentTheseusType = 2;
 				break;
 		}
-		System.out.println(cmbList[g.theseusType]);
+		// System.out.println(cmbList[g.theseusType]);
 		
 	}
 
