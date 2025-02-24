@@ -1,22 +1,13 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
 
 public class Gui{
 	Game g;
@@ -317,7 +308,7 @@ public class Gui{
         JButton play = new JButton("Play");
         play.setBounds(315+100, 520+40, 60, 25);
 		play.addActionListener(new ActionListener(){  
-			
+		
 		    public void actionPerformed(ActionEvent e){  
 		    	flag = false;
 		    	int[] arr = g.setTurns(g);
@@ -346,7 +337,7 @@ public class Gui{
 					panel.repaint();
 					frame.remove(panel);
 		    		frame.add(panel);
-					panel.resize(500,500);
+					panel.setSize(500,500);
 					
 					System.out.println(paintcode[1]+" "+paintcode[2]);
 					
@@ -385,6 +376,7 @@ public class Gui{
 		    		}
 		    	}
 		    }});
+		
 		frame.add(play);
 		
 		
@@ -412,7 +404,7 @@ public class Gui{
     	if(!flag) {
     		frame.remove(panel);
     		frame.add(panel);
-        	panel.resize(500,500);
+        	panel.setSize(500,500);
     	}
     	else {			
     		frame.setVisible(false);

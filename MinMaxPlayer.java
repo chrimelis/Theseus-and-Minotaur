@@ -85,7 +85,6 @@ public class MinMaxPlayer extends Player {
 				System.out.print(" and collected supply S"+(supId + 1));
 			}
 			System.out.print(".\nHe is located at (x,y) = ("+tileId/board.getN()+","+tileId%board.getN()+").\n");
-
 			//inform about score
 			if(roundScore(i+1) == 1) {
 				System.out.println("Theseus has collected : "+roundScore(i+1)+" supply until now!");
@@ -547,7 +546,7 @@ public class MinMaxPlayer extends Player {
 		
 		moveInfo.add((bestMove+newPos)*prime(bestMove));	//save the dice together with the tileId
 		int collectedSupply = 0;
-		if(board.searchSupply(newPos) != -1){
+		if(nodeBoard.searchSupply(newPos) != -1){
 			collectedSupply = 1;
 		}
 		moveInfo.add(collectedSupply);	//save 1 if he collected a supply or 0 otherwise 

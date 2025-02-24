@@ -5,18 +5,18 @@ import javax.swing.JComboBox;
 
 public class PlayerType implements ActionListener{
 	String[] cmbList = {"Random Player", "Heuristic Player", "MinMax Player"};
-    JComboBox cmb;
+    JComboBox<String> cmb;
     Game g;
 	int id;
     public PlayerType(int id, Game g){
     	this.g = g;
 		this.id = id;
 		if(id == 1) {	//Theseus has all 3 types of Players available
-			cmb = new JComboBox(cmbList);
+			cmb = new JComboBox<String>(cmbList);
 		}
 		else {	//For Minotaur we have only implemented the random player
 			String[] str = {"Random Player"};
-			cmb = new JComboBox(str);
+			cmb = new JComboBox<String>(str);
 		}
 		cmb.setSelectedIndex(0);
 		cmb.addActionListener(this);
@@ -38,7 +38,7 @@ public class PlayerType implements ActionListener{
 				g.currentTheseusType = 2;
 				break;
 		}
-		System.out.println(g.theseusType);
+		System.out.println(cmbList[g.theseusType]);
 		
 	}
 

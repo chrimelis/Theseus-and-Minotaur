@@ -424,13 +424,10 @@ public class Board {
 				else s[i][j] = " ";	//else leave a spacee
 
 				int supId = -1;	//the id of supply  that is located on the specific tile
-				int numOfFounded = 0;	//the number of supplies collected i.e. Theseus score
-
-				//note if there exists a supply on the specific tile
-				//and simultaneously find the number of collected supplies
+				//check if a supply exists on the specific tile
+				//and find the compute the corresponding supplyID
 				for(int k = 0; k < S; k++) {
 					if(supplies[k].getSupplyTileId() == id) supId = k;
-					if(supplies[k].getFounded()) numOfFounded++;
 				}
 				//if Theseus and Minotaur are on the same tile
 				if((theseusTile == id) && (minotaurTile == id))

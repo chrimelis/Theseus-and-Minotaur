@@ -1,10 +1,8 @@
-/*
-	Group 100:
-		Kallimanis Ioannis     10007  6945466230    ikallima@ece.auth.gr
-		Melissaris Christos    9983   6907596710    cpmeliss@ece.auth.gr
+/* 
+ * This file contains the main function.
+ * To compile use:	> javac *.java
+ * 					> java Game
 */
-
-import java.util.Scanner;
 
 public class Game {
 	int winner = 0; //if winner = 0, draw, if winner = 1, winner is Theseus, if winner = 2, winner is Minotaur
@@ -45,15 +43,6 @@ public class Game {
 	public int getRound()
 	{
 		return round;
-	}
-	/**
-		This function is used so as one can observe the whole game
-		We have to press a key in order to go to the next move
-	*/
-	public void promptEnterKey(){
-		   System.out.println("Press \"ENTER\" to continue...");
-		   Scanner scanner = new Scanner(System.in);
-		   scanner.nextLine();
 	}
 
 	/**	A quick intro of our project
@@ -350,7 +339,7 @@ public class Game {
 		Game game = new Game();
 		
 		//make the gui of the game that was just created
-		Gui myGui = new Gui(game);
+		new Gui(game);
 		
 		//show credits
 		game.credits();
