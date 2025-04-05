@@ -10,7 +10,7 @@ Unfortunately it's a project from my early programming days, and thus it is sket
 Players can move in every direction (UP, DOWN, LEFT, RIGHT), unless there is a wall, which they cannot penetrate.
  
 ### Characters:
-- **Thesesus** : He tries to collect all the loot placed on the board.  
+- **Thesesus** : He tries to collect all the loot placed on the board, before he runs out of time (final round = 200th).  
 - **Minotaur** : His goal is to kill Theseus, by stepping onto the same tile as him.
 
 ### Player strategies:
