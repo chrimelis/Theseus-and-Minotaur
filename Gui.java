@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,54 +26,73 @@ public class Gui{
 	JLabel gameOver;
     int tx,ty,mx,my;	//holds the coordinates of each player
     boolean flag;	//for technical reasons to know when to refresh the frame
-    
+    Image minotaurImg;
+    Image theseusImg;
+    Image supplyImg;
     int[] paintcode; //used for knowing what to paint
     //constructor of the Gui class
     public Gui(Game g){
+		// initialize images
+		minotaurImg = new ImageIcon("images/minotaur.png").getImage();
+		theseusImg = new ImageIcon("images/theseus.png").getImage();
+		supplyImg = new ImageIcon("images/supply.png").getImage();
+		//tileSize
+		int tileSize = 36;
+		//imageSize
+		int imageSize = tileSize-2;
+		//offset
+		int offset = (tileSize-imageSize)/2;
+		//number of tiles in each line (horizontally or vertically)
+		int n = 15;
+		//Jpanel size
+		int jpanelSize = tileSize*n;
+
     	flag = false;//when creating a board we set it to true
     	paintcode = new int[3];	//first spot for recognizing calls
     	//second spot for the distance in scaling factor of pixels in the x-direction
     	//third spot >>      >>      >>    >>       >>        >>     >>   y-direction
     	paintcode[0] = 0;
     	this.g = g;
-        frame = new JFrame();	//make a new frame(window)
+        frame = new JFrame();	//make a new frame (window)
         panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics gr) {
 	            super.paintComponent(gr);
-	            gr.drawRect(0, 80, 450, 450);
-	            gr.setColor(new Color(255,204,153));
-	            gr.fillRect(0, 0, 450, 450);
+	            gr.drawRect(0, 0, jpanelSize, jpanelSize);
+	            gr.setColor(new Color(255,204,153));	// orange-brown color
+	            gr.fillRect(0, 0, jpanelSize, jpanelSize);
 	           
-	            gr.setColor(new Color(224,224,224));
-	            for(int i = 0; i < 15; i++) {
-	            gr.drawLine(0, 30*i, 450, 30*i);
+	            gr.setColor(new Color(224,224,224));	// gray color
+	            for(int i = 0; i < n; i++) {
+	            gr.drawLine(0, tileSize*i, jpanelSize, tileSize*i);
 	            }
-	            for(int i = 0; i < 15; i++) {
-	            	gr.drawLine(30*i, 0, 30*i, 450);
+	            for(int i = 0; i < n; i++) {
+	            	gr.drawLine(tileSize*i, 0, tileSize*i, jpanelSize);
 	            }
-	                
-	            gr.setColor(Color.BLACK);
-	            gr.drawLine(0, 0, 450, 0);	//top
-	            gr.drawLine(0, 0, 0, 450);	//left
-	            gr.drawLine(450, 0, 450, 450);	//right
-	            gr.drawLine(0, 450, 450, 450);	//bottom
-	          
-	            int n = 15;
-            	
-	            char[] arr = {'M','T','s','1','s','2','s','3','s','4'};
- 	        	//   gr.drawChars(arr, 0, 1, 10, 20);
 	            
+				//labyrinth entrance
+				gr.setColor(Color.WHITE);
+	            gr.drawLine(0, jpanelSize, tileSize, jpanelSize);
+				// boundary walls
+	            gr.setColor(Color.BLACK);
+	            gr.drawLine(0, 0, jpanelSize, 0);	//top
+	            gr.drawLine(0, 0, 0, jpanelSize);	//left
+	            gr.drawLine(jpanelSize, 0, jpanelSize, jpanelSize);	//right
+	            gr.drawLine(tileSize, jpanelSize, jpanelSize, jpanelSize);	//bottom
+
+
  	            if(paintcode[0] != 0) {
  	            	if(paintcode[0]==1) {	//when the game starts
  	            		ty = 0; tx= g.board.getN() - 1;
  	            		mx = my =(g.board.getN() - 1) / 2;
- 	            		gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);	//mino is in the middle
- 	            		gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);	//theseus is at bottom left
+						// Draw Minotaur
+					    gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
+					    // Draw Theseus
+					    gr.drawImage(theseusImg, ty*tileSize+offset, tx*tileSize+offset, imageSize, imageSize, this);
  	            	}
  	            	
             		for(int i = 0; i < n*n; i++) {
-            			int supId = -1;	//the id of supply  that is located on the specific tile
+            			int supId = -1;	//the id of supply that is located on the specific tile
             			for(int k = 0; k < g.board.getS(); k++) {
         					if(g.board.supplies[k].getSupplyTileId() == i) supId = k;
         				}
@@ -79,59 +100,57 @@ public class Gui{
             			int theseusTile = g.p[g.theseusType].getPlayerTile();	//theseus tile
             			int minotaurTile = g.p[3].getPlayerTile();	//minotaur tile
             			
-
-            			
             			//call from play button for theseus
             			if(( theseusTile == i) && paintcode[0] == 2) {	
             				if((theseusTile == i) && (minotaurTile == i) ) {
             					if(g.board.countSupplies() == 0) {	//Theseus has won
             						tx = g.board.getN() - 1 - (theseusTile/g.board.getN());
                     				ty = theseusTile % g.board.getN();
-                    				gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
-            					}
+					    			gr.drawImage(theseusImg, ty*tileSize+offset, tx*tileSize+offset, imageSize, imageSize, this);
+								}
             					else {	//Draw only minotaur
-            						gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);
+									gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
             					}
             				}
             				else {	//Draw both players
             					tx = g.board.getN() - 1 - (theseusTile/g.board.getN());
                 				ty = theseusTile % g.board.getN();
-                				gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
-                				//Draw also Minotaur
-                				gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);	
+					    		gr.drawImage(theseusImg, ty*tileSize+offset, tx*tileSize+offset, imageSize, imageSize, this);
+								//Minotaur
+								gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);							
             				}
             				
             			}
             			//call from play button for minotaur
-            			boolean flag2 = true;
             			if((minotaurTile == i) && paintcode[0] == 3) {
             				if((theseusTile == i) && (minotaurTile == i)) {	//Minotaur won, draw only him
             					mx = g.board.getN() - 1 - (minotaurTile/g.board.getN());
                 				my = minotaurTile % g.board.getN();
-            					gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);
-            					
+								gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
             				}
             				else if(supId == -1) {
-            					mx = g.board.getN() - 1 - (minotaurTile/g.board.getN());
+            					// Minotaur
+								mx = g.board.getN() - 1 - (minotaurTile/g.board.getN());
                 				my = minotaurTile % g.board.getN();
-            					// System.out.println(paintcode[1]+" "+paintcode[2]);
-            					gr.drawChars(arr, 0, 1, my*30+10, mx*30+20);
-            					//Draw also Theseus
-            					gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
+								gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
+            					//Theseus
+					    		gr.drawImage(theseusImg, ty*tileSize+offset, tx*tileSize+offset, imageSize, imageSize, this);
             				}
             				else if(supId != -1){
-            					flag2 = false;
-            					
-            					char[] arr2 = {'M',',','s',(char)(48+supId+1)};
-            					gr.drawChars(arr2, 0, 4, 6+30*(i % n), 20+30*(n - 1 -(i / n)));
-								//Draw also Theseus
-            					gr.drawChars(arr, 1, 1, ty*30+10, tx*30+20);
+								gr.drawImage(supplyImg, tileSize*(i % n)+offset, tileSize*(n - 1 -(i / n))+offset,imageSize, imageSize, this);
+								mx = g.board.getN() - 1 - (minotaurTile/g.board.getN());
+                				my = minotaurTile % g.board.getN();
+								gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
+					    		gr.drawImage(theseusImg, ty*tileSize+offset, tx*tileSize+offset, imageSize, imageSize, this);
             				}
-
-            				
             			}
-            			if(flag2 && (supId != -1)) {
-            				gr.drawChars(arr, 2*(supId+1), 2, 10+30*(i % n), 20+30*(n - 1 -(i / n)));
+            			if(supId != -1){
+							gr.drawImage(supplyImg, tileSize*(i % n)+offset, tileSize*(n - 1 -(i / n))+offset,imageSize, imageSize, this);
+            				// If the Minotaur shares the tile with a Supply 
+							// => display the Minotaur on top of the supply
+							if(minotaurTile == g.board.supplies[supId].getSupplyTileId()){
+								gr.drawImage(minotaurImg, my*tileSize+offset, mx*tileSize+offset, imageSize, imageSize, this);
+							}
             			}
             			//The walls are printed in every round
             			if(g.board.getTile(i).getUp()) {
@@ -142,7 +161,7 @@ public class Gui{
     			    		int k = paintcode[1];
     			    		int j = paintcode[2];
     			    		
-    			    		gr.drawLine(j*30, k*30, (j+1)*30, k*30);
+    			    		gr.drawLine(j*tileSize, k*tileSize, (j+1)*tileSize, k*tileSize);
     					
     					}
     					if(g.board.getTile(i).getRight()) {
@@ -152,7 +171,7 @@ public class Gui{
     			    		//paint a right wall
     			    		int k = paintcode[1];
     			    		int j = paintcode[2];
-    			    		gr.drawLine((j+1)*30, k*30, (j+1)*30, (k+1)*30);
+    			    		gr.drawLine((j+1)*tileSize, k*tileSize, (j+1)*tileSize, (k+1)*tileSize);
     					}
     					if(g.board.getTile(i).getDown()) {    					
     						paintcode[1] = n - 1 -(i / n); //the row count starts from top now not from bottom as before
@@ -161,7 +180,7 @@ public class Gui{
     			    		//paint a down wall
     			    		int k = paintcode[1];
     			    		int j = paintcode[2];
-    			    		gr.drawLine(j*30, (k+1)*30, (j+1)*30, (k+1)*30);
+    			    		gr.drawLine(j*tileSize, (k+1)*tileSize, (j+1)*tileSize, (k+1)*tileSize);
     					}
     					if(g.board.getTile(i).getLeft()) {
     						paintcode[1] = n - 1 -(i / n); //the row count starts from top now not from bottom as before
@@ -170,24 +189,21 @@ public class Gui{
     			    		//paint a left wall
     			    		int k = paintcode[1];
     			    		int j = paintcode[2];
-    			    		gr.drawLine(j*30, k*30, j*30, (k+1)*30);
+    			    		gr.drawLine(j*tileSize, k*tileSize, j*tileSize, (k+1)*tileSize);
     					}
     					
     				}	
             	}
-            	
-            	
                 //now whenever the game is on we will be seeing the maze without any walls inside
                 //when the generate board button is pressed we must see the new maze 
                 //with walls and the players in their starting positions
             }
-        };//make a panel
-        panel.setSize(500, 500);
-        panel.setBounds(250, 50, 451, 451);
+        };
+		//make a panel
+        panel.setBounds(170, 50, jpanelSize+1, jpanelSize+1);
         
-        
-        panel.setBorder(null);	//set it to null so we can work from left to right
-        panel.setLayout(null);	//similar initialization so as to have the layout manager work as needed
+        // panel.setBorder(null);	//set it to null so we can work from left to right
+        // panel.setLayout(null);	//similar initialization so as to have the layout manager work as needed
         frame.setTitle("Theseus and Minotaur");	//the Title of the Window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 700);
@@ -229,7 +245,7 @@ public class Gui{
         scoreM.setBounds(600+160, 500+120, 150, 25);
         scoreM.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         
-        start = new JLabel("To begin press Generate Board !");
+        start = new JLabel("To begin press New Game!");
         start.setBounds(250, 20,300,25);
         start.setForeground(Color.RED);
         start.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
@@ -255,8 +271,6 @@ public class Gui{
         addPlayerType(2,g);	//add a comboBox for Minotaur
         
         
-        
-        
         //Here add 3 buttons
         
         //First make the layout correct and after finishing add the function for each button
@@ -265,20 +279,28 @@ public class Gui{
         // 2) Play					
         // 3) Quit 					
         
+		int h_buttons = 25;			// height of the buttons
+		int y_buttons = 600;		// vertical displacement of all buttons from the top of the frame
+		int w_genB = 100;			// width of the New Game button
+		int w_play = 60;			// width of the Play button
+		int w_quit = 60;			// width of the Quit button
+		int x_genB = 330;			// horizontal displacement of the genB button from the left of the frame
+		int x_play = x_genB + w_genB + 5; // horizontal displacement of the Play button from the left of the frame
+		int x_quit = x_play + w_play + 5; // horizontal displacement of the Quit button from the left of the frame
         
         //Generate Board Button
-        JButton genB = new JButton("Generate Board");
-        genB.setBounds(100+180, 520+40, 130, 25);
+        JButton genB = new JButton("New Game");
+        genB.setBounds(x_genB, y_buttons, 100, h_buttons);
         genB.addActionListener(new ActionListener(){  
 		    public void actionPerformed(ActionEvent e){ 
-		    	
+		    	gameOver.setText("");
 		    	start.setText("");
 		    	g.setRound(0);
 		    	roundLabel.setText("Round: 0");
 		    	moveT.setText("Move Score: 0");
 		    	scoreT.setText("Total Score: 0");
 		    	moveM.setText("Move Score: 0");
-		    	scoreM.setText("Move Score: 0");
+		    	scoreM.setText("Total Score: 0");
 		    	g.theseusType = g.currentTheseusType;	//whenever a new board is created the playerType can change
 		    	//length/width of board
 				int n = 15;
@@ -313,7 +335,7 @@ public class Gui{
         
         //Play Button
         JButton play = new JButton("Play");
-        play.setBounds(315+100, 520+40, 60, 25);
+        play.setBounds(x_play, y_buttons, w_play, h_buttons);
 		play.addActionListener(new ActionListener(){  
 		
 		    public void actionPerformed(ActionEvent e){  
@@ -390,7 +412,7 @@ public class Gui{
 		
 		//Quit button
         JButton quit = new JButton("Quit");
-        quit.setBounds(315+165, 520+40, 60, 25);
+        quit.setBounds(x_quit, y_buttons, w_quit, h_buttons);
         quit.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
              System.out.println("User hit the Quit Button");
@@ -424,7 +446,7 @@ public class Gui{
     public void addPlayerType(int id, Game g) {
     	PlayerType p = new PlayerType(id, g);
     	frame.add(p.cmb);
-    	if(id == 1) {	//Theseus's PlayerType must be alligned with his score and Name(so has the same x distance)
+    	if(id == 1) {	//Theseus's PlayerType must be aligned with his score and Name(so has the same x distance)
     		p.cmb.setBounds(0, 300+170, 150, 40);
     		p.cmb.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
     	}

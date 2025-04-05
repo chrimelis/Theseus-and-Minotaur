@@ -181,7 +181,7 @@ public class Game {
 		}
 		System.out.print("\n");
 		for(int k = h - 1; k >= 0; k--){
-			for(int i = 0; i < width; i++){           // *     * 
+			for(int i = 0; i < width; i++){
 				if(i == k || i == (width - k - 1))
 					System.out.print("*");
 				else
@@ -357,7 +357,7 @@ public class Game {
 		int theseusTile = game.p[game.theseusType].getBoard().getPlayerTile(game.p[game.theseusType].getPlayerId());
 		int minotaurTile = game.p[3].getBoard().getPlayerTile(game.p[3].getPlayerId());
 
-		//represent the board
+		//Create array that will hold the String representation of the board
 		String[][] array = new String[2 * n + 1][n];
 		//get and print initial state
 		array = game.board.getStringRepresentation(theseusTile, minotaurTile);
@@ -367,12 +367,6 @@ public class Game {
 				System.out.print(array[j][k]);
 			}
 		}
-	
-		
-	
-		
-
-
 		
 	}
 }
